@@ -1,15 +1,17 @@
 import * as net from 'net'
 import EventEmitter from 'events';
+import Electron from '../Electron';
 
 class Socket extends EventEmitter {
 
     private client: net.Socket;
     private port = 5000;
+    static socket?: Socket;
 
-    constructor() {
+    constructor(ip: string) {
         super();
         console.log("Client Socket");
-        this.client = net.createConnection({ port: this.port }, this.listener);
+        this.client = net.createConnection({ host: ip, port: this.port }, this.listener);
         /* () => {
             // 'connect' listener.
             console.log('connected to server!');
@@ -25,10 +27,21 @@ class Socket extends EventEmitter {
         });*/
     }
 
+    static Start(ip: string) {
+        if (Socket.socket) return Socket.socket;
+        return Socket.socket = new Socket(ip);
+    }
+
+    static get current() {
+        return Socket.socket;
+    }
+
     listener() {
         this.on("data", (data) => {
+            const message = data.toString();
+            const [command, ...body] = message.split(" ");
             // Receber mensagem do servidor
-            console.log("Client -> Server",data.toString())
+            Electron.current.webContents.send("eventServer", { command, body });
         })
     }
 

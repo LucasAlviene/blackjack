@@ -8,21 +8,22 @@ app.on('ready', () => {
 })
 
 app.onEvent('startServer', (e) => {
-  const socket = new Socket.Server();
-  socket.listen();
+  const socket = Socket.Server.Start();
   e.sender.send("startServer");
 });
 
-app.onEvent('joinServer', (e, ip) => {
-  const socket = new Socket.Client();
-  socket.emit("start");
-  socket.on('data', (data) => {
-    console.log(data.toString());
-  });
-  socket.on('end', () => {
-    console.log('disconnected from server');
-  });
+app.onEvent('joinServer', (e, ip, name) => {
+  const socket = Socket.Client.Start(ip);
+  socket.emit("HANDSHAKE " + name);
 });
+
+app.onEvent('eventClient', (e, command) => {
+  const socket = Socket.Client.current;
+  if (socket) {
+    socket.emit(command);
+   // socket.end();
+  }
+})
 
 app.on('activate', () => {
   if (Electron.current) app.createWindow();

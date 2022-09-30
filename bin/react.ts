@@ -15,31 +15,11 @@ let child;
 const runServer = async () => {
     console.log('Starting server...');
     clientServer.start();
-    fs.copyFile(path.resolve(__dirname,"..","public/preload.js"), path.resolve(__dirname,"..","build/server/preload.js"),() => {});
     // Gambiarra temporaria
     fs.copyFile(path.resolve(__dirname,"..","public/images/image1.png"), path.resolve(__dirname,"..","build/images/image1.png"),() => {});
     fs.copyFile(path.resolve(__dirname,"..","public/images/image2.png"), path.resolve(__dirname,"..","build/images/image2.png"),() => {});
     fs.copyFile(path.resolve(__dirname,"..","public/images/image3.png"), path.resolve(__dirname,"..","build/images/image3.png"),() => {});
     fs.copyFile(path.resolve(__dirname,"..","public/images/image4.png"), path.resolve(__dirname,"..","build/images/image4.png"),() => {});
-    Server.watch({
-        aggregateTimeout: 300,
-        poll: undefined
-    }, (err, stats) => {
-        console.log("Running Server....");
-        if (err || stats?.hasErrors()) {
-            console.log(err)
-            return;
-        }
-        console.log(stats?.toString())
-        if (child) {
-            child.kill();
-        };
-        child = proc.spawn(electron, ["."], { stdio: 'inherit', windowsHide: false });
-        child.on('close', function (code, signal) {
-            if (code !== null) process.exit(code);
-
-        });
-    });
 };
 
 const handleTerminationSignal = function (signal) {

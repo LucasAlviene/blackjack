@@ -2,63 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const nodeExternals = require('webpack-node-externals');
 
 // https://www.educative.io/answers/how-to-create-a-react-application-with-webpack
 
-class InlineChunkHtmlPlugin {
-    constructor(htmlWebpackPlugin, tests) {
-      this.htmlWebpackPlugin = htmlWebpackPlugin;
-      this.tests = tests;
-    }
-  
-    getInlinedTag(publicPath, assets, tag) {
-      if (tag.tagName !== 'script' || !(tag.attributes && tag.attributes.src)) {
-        return tag;
-      }
-      const scriptName = publicPath
-        ? tag.attributes.src.replace(publicPath, '')
-        : tag.attributes.src;
-      if (!this.tests.some(test => scriptName.match(test))) {
-        return tag;
-      }
-      const asset = assets[scriptName];
-      if (asset == null) {
-        return tag;
-      }
-      return { tagName: 'script', innerHTML: asset.source(), closeTag: true };
-    }
-  
-    apply(compiler) {
-      let publicPath = compiler.options.output.publicPath || '';
-      if (publicPath && !publicPath.endsWith('/')) {
-        publicPath += '/';
-      }
-  
-      compiler.hooks.compilation.tap('InlineChunkHtmlPlugin', compilation => {
-        const tagFunction = tag =>
-          this.getInlinedTag(publicPath, compilation.assets, tag);
-  
-        const hooks = this.htmlWebpackPlugin.getHooks(compilation);
-        hooks.alterAssetTagGroups.tap('InlineChunkHtmlPlugin', assets => {
-          assets.headTags = assets.headTags.map(tagFunction);
-          assets.bodyTags = assets.bodyTags.map(tagFunction);
-        });
-  
-        // Still emit the runtime chunk for users who do not use our generated
-        // index.html file.
-        // hooks.afterEmit.tap('InlineChunkHtmlPlugin', () => {
-        //   Object.keys(compilation.assets).forEach(assetName => {
-        //     if (this.tests.some(test => assetName.match(test))) {
-        //       delete compilation.assets[assetName];
-        //     }
-        //   });
-        // });
-      });
-    }
-  }
 
 module.exports = function (mode, definePlugin) {
+    const isEnvProduction = mode == "production";
+    const isEnvDevelopment = mode == "development";
 
     return {
         entry: path.resolve(__dirname, 'src/index.tsx'),
@@ -78,7 +28,7 @@ module.exports = function (mode, definePlugin) {
         },
         stats: 'errors-warnings',
         target: ['browserslist'],
-        devtool: mode == "production" ? 'source-map' : 'cheap-module-source-map',
+        devtool: isEnvProduction ? 'source-map' : 'cheap-module-source-map',
         module: {
             strictExportPresence: true,
             rules: [
@@ -104,6 +54,18 @@ module.exports = function (mode, definePlugin) {
                         compact: true
                     }
                 },
+                {
+                    test: /\.(scss|sass)$/,
+                    exclude: /\.module\.(scss|sass)$/,
+                    use: [
+                        // Creates `style` nodes from JS strings
+                        "style-loader",
+                        // Translates CSS into CommonJS
+                        "css-loader",
+                        // Compiles Sass to CSS
+                        "sass-loader",
+                    ],
+                }
             ]
         },
         resolve: {
@@ -111,7 +73,7 @@ module.exports = function (mode, definePlugin) {
             modules: ["node_modules"],
             extensions: [".ts", ".tsx", ".js"]
         },
-        externals: [nodeExternals()],
+        // externals: [nodeExternals()],
         optimization: {
             splitChunks: {
                 chunks: 'all',
@@ -171,7 +133,7 @@ module.exports = function (mode, definePlugin) {
                 template: path.resolve(__dirname, 'public', 'index.html'),
                 //inject: true,
 
-                ...(mode == "production" && {
+                ...(isEnvProduction && {
                     minify: {
                         removeComments: true,
                         collapseWhitespace: true,
@@ -186,8 +148,8 @@ module.exports = function (mode, definePlugin) {
                     }
                 })
             }),
-          //  new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),,
-            
+            //  new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),,
+
             definePlugin
         ],
     }

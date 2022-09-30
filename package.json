@@ -5,6 +5,7 @@
   "main": "build/server/main.js",
   "scripts": {
     "start": "ts-node bin/start.ts",
+    "react": "ts-node bin/react.ts",
     "build": "ts-node bin/build.ts",
     "electron": "npm run start && electron .",
     "electron:build": "electron-builder --win --publish never -c.extraMetadata.main=build/server/main.js --config=electron-builder.yml",
@@ -28,6 +29,7 @@
     "electron-builder": "^23.1.0",
     "html-webpack-plugin": "^5.5.0",
     "path-browserify": "^1.0.1",
+    "sass-loader": "^12.6.0",
     "terser-webpack-plugin": "^5.3.3",
     "ts-loader": "^9.3.0",
     "typescript": "^4.7.4",
@@ -37,16 +39,33 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
     "electron-log": "^4.4.7",
     "electron-updater": "^5.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
+    "react-redux": "^8.0.4",
+    "react-router-dom": "^6.4.1",
     "react-scripts": "^5.0.1",
+    "redux": "^4.2.0",
+    "sass": "^1.55.0",
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2"
   },
   "engines": {
     "node": "14.15.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
   },
   "browserslist": {
     "production": [
