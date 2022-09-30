@@ -11,7 +11,11 @@ class Socket extends EventEmitter {
     constructor(ip: string) {
         super();
         console.log("Client Socket");
-        this.client = net.createConnection({ host: ip, port: this.port }, this.listener);
+        Electron.current.webContents.send("eventServer", JSON.stringify({ host: ip, port: this.port }));
+        this.client = net.createConnection(this.port, ip, () => this.listener());
+        this.client.on("error", (err) => {
+            Electron.current.webContents.send("eventServer", JSON.stringify(err));
+        })
         /* () => {
             // 'connect' listener.
             console.log('connected to server!');
@@ -37,6 +41,7 @@ class Socket extends EventEmitter {
     }
 
     listener() {
+        Electron.current.webContents.send("eventServer", "Conectado");
         this.on("data", (data) => {
             const message = data.toString();
             const [command, ...body] = message.split(" ");

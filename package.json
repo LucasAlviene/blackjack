@@ -8,7 +8,7 @@
     "react": "ts-node bin/react.ts",
     "build": "ts-node bin/build.ts",
     "electron": "npm run start && electron .",
-    "electron:build": "electron-builder --win --publish never -c.extraMetadata.main=build/server/main.js --config=electron-builder.yml",
+    "electron:build": "electron-builder --win --publish never -c.extraMetadata.main=build/server/main.js",
     "electron:build:32bits": "electron-builder --win --publish never -c.extraMetadata.main=build/server/main.js --config=electron-builder.yml --ia32",
     "electron:deploy": "electron-builder --win --publish always -c.extraMetadata.main=build/server/main.js --config=electron-builder.yml",
     "release": "npm run build && npm run electron:build",

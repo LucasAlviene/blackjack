@@ -1,0 +1,28 @@
+
+
+
+.avatar-chooser {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  > img {
+    width: 4rem;
+    border-radius: 4px;
+  }
+  > button {
+    margin: 0 .2rem;
+    padding: .5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #222;
+    color: #222;
+    cursor: pointer;
+    transition: all .2s;
+    &:hover {
+      background-color: #222;
+      color: white;
+    }
+  }
+}

@@ -8,3 +8,7 @@ export const event = (name: string, params: any[] = [], callback: Function | nul
 export const onEvent = (name: string, callback: Function) => {
     ipcRenderer?.on(name, callback);
 }
+
+export const offEvent = (name: string, callback: Function) => {
+    ipcRenderer?.off(name, callback);
+}
