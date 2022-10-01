@@ -1,0 +1,49 @@
+@use "sass:math";
+
+/* Grid Medias */
+@mixin generateGridMedia($class, $minWidth, $max: false) {
+  @if $max {
+    @for $i from 1 through 12 {
+      @media (max-width: $minWidth) {
+        #{$class}\:w-#{$i}\/12 {
+          width: (math.div(100, 12) * $i) * 1%;
+        }
+      }
+    }
+  } @else {
+    @for $i from 1 through 12 {
+      @media (min-width: $minWidth) {
+        #{$class}\:w-#{$i}\/12 {
+          width: (math.div(100, 12) * $i) * 1%;
+        }
+      }
+    }
+  }
+}
+/*sm*/
+//@include generateGridMedia('.sm', 640px);
+@include generateGridMedia('.sm', 768px, true);
+/*md*/
+@include generateGridMedia('.md', 768px);
+/*lg*/
+@include generateGridMedia('.lg', 1024px);
+/*xl*/
+@include generateGridMedia('.xl', 1280px);
+/*xxl*/
+@include generateGridMedia('.\\32xl', 1536px);
+
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}

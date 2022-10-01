@@ -1,12 +1,17 @@
 
+.page {
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
 .page-home {
 
 }
 
 .page-create-room {
-
-  
-
   
 }
 
@@ -20,4 +25,18 @@
 
 .page-room {
 
+}
+
+.container {
+  padding: 1rem .2rem;
+  width: 20rem;
+  //height: 25rem;
+  background-color: white;
+  box-shadow: 0 2px 4px black;
+  border-radius: 4px;
+
+  //display: flex;
+  //flex-wrap: wrap;
+  //justify-content: center;  
+  //align-items: center;
 }

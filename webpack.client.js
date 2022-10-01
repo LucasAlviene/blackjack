@@ -22,8 +22,16 @@ module.exports = function (mode, definePlugin) {
         devServer: {
             static: {
                 directory: path.join(__dirname, 'public'),
-            },/*
-            compress: true,*/
+            },
+            historyApiFallback: true,
+            /*
+            historyApiFallback: {
+                // Paths with dots should still use the history fallback.
+                // See https://github.com/facebook/create-react-app/issues/387.
+                disableDotRule: true,
+                index: "/",
+            },*/
+            compress: true,
             port: 9000,
         },
         stats: 'errors-warnings',

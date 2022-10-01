@@ -6,11 +6,12 @@
   justify-items: center;
   align-items: center;
   > img {
-    width: 4rem;
+    margin: 0 .75rem;
+    width: 8rem;
+    height: 8rem;
     border-radius: 4px;
   }
   > button {
-    margin: 0 .2rem;
     padding: .5rem;
     border-radius: 50%;
     display: flex;
@@ -25,4 +26,64 @@
       color: white;
     }
   }
+}
+
+
+.textfield {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  > span {
+    display: inline-block;
+    width: 100%;
+  }
+  > input {
+    margin-left: auto;
+    width: 100%;
+    padding: .5rem;
+  }
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 80%;
+  padding: .5rem 0;
+  border-radius: 50rem;
+  border: none;
+  box-shadow: 0 2px 4px #000;
+  
+
+  &, & > a {
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+  }
+
+  &:not(.loading) {
+    background-color: #ff6a6a;
+  }
+
+  &:not(.loading):hover {
+    background-color: #ff6a6add;
+    cursor: pointer;
+  }
+
+  &.loading {
+    background-color: #ff6a6add;
+  }
+
+  &.loading > svg {
+    animation-name: button-loading-animation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+}
+
+@keyframes button-loading-animation {
+  from {transform: rotateZ(0deg);}
+  to {transform: rotateZ(360deg);}
 }

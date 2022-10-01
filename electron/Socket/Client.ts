@@ -8,32 +8,19 @@ class Socket extends EventEmitter {
     private port = 5000;
     static socket?: Socket;
 
-    constructor(ip: string) {
+    constructor(ip: string, port: number) {
         super();
         console.log("Client Socket");
-        Electron.current.webContents.send("eventServer", JSON.stringify({ host: ip, port: this.port }));
+        Electron.current.webContents.send("eventServer", JSON.stringify({ host: ip, port }));
         this.client = net.createConnection(this.port, ip, () => this.listener());
         this.client.on("error", (err) => {
             Electron.current.webContents.send("eventServer", JSON.stringify(err));
         })
-        /* () => {
-            // 'connect' listener.
-            console.log('connected to server!');
-            //   this.client.write('world!\r\n');
-        });
-        /*
-        this.client.on('data', (data) => {
-            console.log(data.toString());
-            this.client.end();
-        });
-        this.client.on('end', () => {
-            console.log('disconnected from server');
-        });*/
     }
 
-    static Start(ip: string) {
+    static Start(ip: string, port: number) {
         if (Socket.socket) return Socket.socket;
-        return Socket.socket = new Socket(ip);
+        return Socket.socket = new Socket(ip, port);
     }
 
     static get current() {

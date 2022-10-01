@@ -12,17 +12,19 @@ app.onEvent('startServer', (e) => {
   e.sender.send("startServer");
 });
 
-app.onEvent('joinServer', (e, ip, name) => {
-  const socket = Socket.Client.Start(ip);
-  socket.emit("HANDSHAKE " + name);
+app.onEvent('joinServer', (e, ip, port, name, avatarPath) => {
+  const socket = Socket.Client.Start(ip, port);
+  socket.emit("HANDSHAKE " + name + " " + avatarPath);
+  e.sender.send("joinServer");
 });
 
 app.onEvent('eventClient', (e, command) => {
   const socket = Socket.Client.current;
   if (socket) {
     socket.emit(command);
-   // socket.end();
+    // socket.end();
   }
+  e.sender.send("eventClient");
 })
 
 app.on('activate', () => {
