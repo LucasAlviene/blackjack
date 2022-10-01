@@ -20,7 +20,9 @@
 }
 
 .page-waiting-room {
-
+  > .container {
+    width: 40rem;
+  }
 }
 
 .page-room {

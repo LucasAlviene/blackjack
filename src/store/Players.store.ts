@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {PayloadAction} from '@reduxjs/toolkit'
 
-interface Player {
+export interface PlayerData {
   id: number
   name: string
   avatar: string
@@ -14,7 +14,7 @@ interface Player {
 }
 
 interface PlayerStoreState {
-  players: Player[]
+  players: PlayerData[]
 }
 
 const initialState: PlayerStoreState = {
@@ -25,7 +25,7 @@ const PlayerStore = createSlice({
   name: 'players',
   initialState,
   reducers: {
-    addPlayer: (state: PlayerStoreState, action:PayloadAction<Player>) => {
+    addPlayer: (state: PlayerStoreState, action:PayloadAction<PlayerData>) => {
       if(action.payload === null) return
       if(state.players.length !== 0 && 
         state.players.findIndex(player => player.id === action.payload.id) !== -1) {

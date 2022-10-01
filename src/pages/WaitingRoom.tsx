@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import PlayersQueue from '../components/PlayersQueue';
+import { useSelector } from '../store/Root.store';
 
 import { onEvent, offEvent } from '../utils/event';
 
@@ -7,6 +9,8 @@ interface WaitingRoomProps {
 }
 
 const WaitingRoom: React.FC<WaitingRoomProps> = () => {
+
+  const players = useSelector(state => state.players.players)
 
   useEffect(() => {
     const listener = (e, data : ResponseServer) => {
@@ -23,7 +27,7 @@ const WaitingRoom: React.FC<WaitingRoomProps> = () => {
   return (
     <div className='page page-waiting-room'>
       <div className='container'>
-
+        <PlayersQueue players={players}  />
       </div>
     </div>
   );

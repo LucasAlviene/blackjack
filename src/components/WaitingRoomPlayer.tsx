@@ -1,15 +1,15 @@
 import React from 'react';
+import { PlayerData } from '../store/Players.store';
 
 interface WaitingRoomPlayerProps {
-  avatar: string
-  name: string
+  player: PlayerData
 }
 
 const WaitingRoomPlayer: React.FC<WaitingRoomPlayerProps> = (props) => {
   return (
     <div>
-      <img src={props.avatar} alt={props.name} />
-      <span> {props.name} </span>
+      <img src={props.player.avatar} alt={props.player.name} />
+      <span> {props.player.name} </span>
     </div>
   );
 };

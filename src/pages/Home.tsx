@@ -3,7 +3,7 @@ import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
 
-import {Link} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import PageLinks from './PageLinks'
 
 interface HomeProps {
@@ -11,6 +11,7 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = () => {
+  const navigate = useNavigate()
   return (
     <div className="page page-home">
       <div className="container">
@@ -21,14 +22,14 @@ const Home: React.FC<HomeProps> = () => {
         </Row>
         <Row>
           <Column className='flex-center'>
-            <Button link={PageLinks.CREATE_ROOM}>
+            <Button onClick={() => navigate(PageLinks.CREATE_ROOM)}>
               Criar novo jogo
             </Button>
           </Column>
         </Row>
         <Row>
           <Column className='flex-center'>
-            <Button link={PageLinks.JOIN_ROOM}>
+            <Button onClick={() => navigate(PageLinks.JOIN_ROOM)}>
               Juntar-se a um jogo
             </Button>
           </Column>
