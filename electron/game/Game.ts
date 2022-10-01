@@ -8,25 +8,61 @@ class Game {
     private players: Map<number, Player>;
     private deck: Deck;
     private id = 0;
+    private orderPlayers: number[] = [];
+    private _currentPlayer?: number;
 
     constructor() {
         this.players = new Map<number, Player>();
         this.deck = new Deck;
     }
 
-    StartGame() {
+    public get Start(): boolean {
+        return this.orderPlayers.length > 0;
+    }
+    public get currentPlayer() {
+        return this._currentPlayer;
+    }
+
+    async StartGame() {
         this.deck.create();
-        this.players.forEach((currentPlayer) => {
-            currentPlayer.addHand(this.deck.pop());
-            currentPlayer.addHand(this.deck.pop());
-            currentPlayer.send("START", currentPlayer.hand.toString())
-            // Avisa todos os jogadores da mão do Player
-            this.messageEveryone("HAND", currentPlayer.id + " " + currentPlayer.hand.toString());
-            /*this.messageEveryone((player2) => {
-                if (currentPlayer.id == player2.id) return;
-                player2.send("HAND " + currentPlayer.id + " " + currentPlayer.hand.toString())
-            })*/
-        })
+        const players = this.players.values();
+        for (let currentPlayer of players) {
+            this.addCardToPlayer(currentPlayer);
+            this.addCardToPlayer(currentPlayer);
+            await currentPlayer.send("START");
+            await this.messageEveryone("PLAYER", currentPlayer.toString());
+            await this.messageEveryone("HAND", currentPlayer.id + " " + currentPlayer.hand.toString());
+        }
+        this.nextPlayer();
+    }
+
+    async addCardToPlayer(player: Player) {
+        player.addHand(this.deck.pop());
+    }
+
+    async nextPlayer() {
+        const actual = this.orderPlayers.pop();
+        if (actual) {
+            this._currentPlayer = actual;
+            await this.messageEveryone("STAND", String(actual));
+        } else {
+            const players = this.players.values();
+            this.orderPlayers = [];
+            for (let currentPlayer of players) {
+                const total = currentPlayer.sumHand();
+                if (total > 21) {
+                    // currentPlayer Perdeu
+                    await this.messageEveryone("LOST", String(currentPlayer));
+                    this.removePlayer(currentPlayer)
+                } else if (total == 21) {
+                    await this.messageEveryone("WINNER", String(currentPlayer));
+                    // currentPlayer Ganhou
+                } else {
+                    this.orderPlayers.push(currentPlayer.id);
+                }
+            }
+            if (this.orderPlayers.length > 0) this.nextPlayer();
+        }
     }
 
     newPlayer(socket: net.Socket) {
@@ -41,12 +77,11 @@ class Game {
         this.messageEveryone("EXIT", String(player.id));
     }
 
-    messageEveryone(command: string, message?: string) {
-        setTimeout(() => {
-            this.players.forEach((player) => {
-                player.send(command, message);
-            })
-        },500)
+    async messageEveryone(command: string, message?: string) {
+        const players = this.players.values();
+        for (let player of players) {
+            await player.send(command, message);
+        }
     }
 }
 
