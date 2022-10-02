@@ -6,6 +6,8 @@ import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
 import PageLinks from './PageLinks';
+import { useDispatch } from '../store/Root.store';
+import { connectAsServer } from '../store/Connection.store';
 
 import { event } from '../utils/event';
 
@@ -15,17 +17,19 @@ interface CreateRoomProps {
 
 const CreateRoom: React.FC<CreateRoomProps> = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [avatarPath, setAvatarPath] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const [port, setPort] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const handleClick = () => {
     setLoading(true)
+    //dispatch(test())
     event("startServer", [], (e) => {
-      event("joinServer", ['localhost', port, name, avatarPath], (e) => {
+      event("joinServer", ['localhost', 5000, name, avatarPath], (e) => {
+        dispatch(connectAsServer({ip: "", port: ""}))
+        navigate(PageLinks.WAITING_ROOM);
       });
     });
-    navigate(PageLinks.WAITING_ROOM);
   }
   return (
     <div className="page page-create-room">
@@ -43,11 +47,6 @@ const CreateRoom: React.FC<CreateRoomProps> = () => {
         <Row>
           <Column className='flex-center'>
             <TextField label="Nome" setText={setName} />
-          </Column>
-        </Row>
-        <Row>
-          <Column className='flex-center'>
-            <TextField label="Port" setText={setPort} />
           </Column>
         </Row>
         <Row>

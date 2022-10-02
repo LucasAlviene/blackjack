@@ -33,23 +33,26 @@ class Socket {
 
     listener(socket: net.Socket) {
         const player = this.game.newPlayer(socket);
-        socket.on("data", (data) => {
-            const message = data.toString();
-            const [command, ...body] = message.split(" ");
-            if (command == "START") {
-                this.game.StartGame();
-            } else {
-                player.command(command, body);
-            }
-            console.log("Server -> Client", message)
-        })
-        socket.on("end", () => {
-            this.game.removePlayer(player);
-        })
+        if (player) {
+
+            socket.on("data", (data) => {
+                const message = data.toString();
+                const [command, ...body] = message.split(" ");
+                if (command == "START") {
+                    this.game.StartGame();
+                } else {
+                    player.command(command, body);
+                }
+                console.log("Server -> Client", message)
+            })
+            socket.on("end", () => {
+                this.game.removePlayer(player);
+            })
+        }
     }
 
     listen() {
-        this.server.listen(0, () => console.log('opened server on', this.server.address()))
+        this.server.listen(this.port, () => console.log('opened server on', this.server.address()))
     }
 
 }

@@ -1,5 +1,8 @@
 
-
+$color-red: #ff6a6a;
+$color-red2: #ff6a6add;
+$color-gray: #222;
+$color-gray2: #aaa;
 
 .avatar-chooser {
   display: flex;
@@ -17,12 +20,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #222;
-    color: #222;
+    border: 1px solid $color-gray;
+    color: $color-gray;
     cursor: pointer;
     transition: all .2s;
     &:hover {
-      background-color: #222;
+      background-color: $color-gray;
       color: white;
     }
   }
@@ -62,17 +65,21 @@
     color: white;
   }
 
-  &:not(.loading) {
-    background-color: #ff6a6a;
+  &:not(.loading, .disabled) {
+    background-color: $color-red;
   }
 
-  &:not(.loading):hover {
-    background-color: #ff6a6add;
+  &:not(.loading, .disabled):hover {
+    background-color: $color-red2;
     cursor: pointer;
   }
 
   &.loading {
-    background-color: #ff6a6add;
+    background-color: $color-red2;
+  }
+
+  &.disabled {
+    background-color: $color-gray2;
   }
 
   &.loading > svg {
@@ -86,4 +93,35 @@
 @keyframes button-loading-animation {
   from {transform: rotateZ(0deg);}
   to {transform: rotateZ(360deg);}
+}
+
+.waiting-room-player {
+  width: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > img {
+    margin-bottom: .5rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px black;
+  }
+  > span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.players-queue {
+  width: auto;
+  margin: 0 1rem;
+  border: .5rem solid $color-red;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

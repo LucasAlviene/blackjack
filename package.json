@@ -42,6 +42,7 @@
     "@reduxjs/toolkit": "^1.8.5",
     "electron-log": "^4.4.7",
     "electron-updater": "^5.0.5",
+    "fs-extra": "^10.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",

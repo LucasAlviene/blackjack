@@ -5,14 +5,14 @@ import Player from './Player';
 
 class Game {
 
-    private players: Map<number, Player>;
+    private _players: Map<number, Player>;
     private deck: Deck;
     private id = 0;
     private orderPlayers: number[] = [];
     private _currentPlayer?: number;
 
     constructor() {
-        this.players = new Map<number, Player>();
+        this._players = new Map<number, Player>();
         this.deck = new Deck;
     }
 
@@ -22,16 +22,19 @@ class Game {
     public get currentPlayer() {
         return this._currentPlayer;
     }
+    public get players() {
+        return this._players;
+    }
 
     async StartGame() {
         this.deck.create();
-        const players = this.players.values();
+        const players = this._players.values();
         for (let currentPlayer of players) {
             this.addCardToPlayer(currentPlayer);
             this.addCardToPlayer(currentPlayer);
             await currentPlayer.send("START");
-            await this.messageEveryone("PLAYER", currentPlayer.toString());
-            await this.messageEveryone("HAND", currentPlayer.id + " " + currentPlayer.hand.toString());
+            //await this.messageEveryone("PLAYER", currentPlayer.toString());
+            await this.messageEveryone("HAND", currentPlayer.id + " " + currentPlayer.hand.toString()+" "+currentPlayer.sumHand(true));
         }
         this.nextPlayer();
     }
@@ -46,10 +49,10 @@ class Game {
             this._currentPlayer = actual;
             await this.messageEveryone("STAND", String(actual));
         } else {
-            const players = this.players.values();
+            const players = this._players.values();
             this.orderPlayers = [];
             for (let currentPlayer of players) {
-                const total = currentPlayer.sumHand();
+                const total = currentPlayer.sumHand(true);
                 if (total > 21) {
                     // currentPlayer Perdeu
                     await this.messageEveryone("LOST", String(currentPlayer));
@@ -68,17 +71,17 @@ class Game {
     newPlayer(socket: net.Socket) {
         const id = ++this.id;
         const player = new Player(id, socket);
-        this.players.set(id, player);
+        this._players.set(id, player);
         return player;
     }
 
     removePlayer(player: Player) {
-        this.players.delete(player.id);
+        this._players.delete(player.id);
         this.messageEveryone("EXIT", String(player.id));
     }
 
     async messageEveryone(command: string, message?: string) {
-        const players = this.players.values();
+        const players = this._players.values();
         for (let player of players) {
             await player.send(command, message);
         }

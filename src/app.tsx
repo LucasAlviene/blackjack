@@ -40,7 +40,12 @@ const App: React.FC<AppProps> = () => {
                 <Route path={PageLinks.WAITING_ROOM} element={<WaitingRoom />} />
                 <Route path={PageLinks.ROOM} element={<Room />} />
             </Routes>
-            <b>VERSÃO MAIS ATUAL - 1.0.0</b>
+            <a href='#/'>Voltar</a>
+
+        </>
+    )
+}/*
+            <b>VERSÃO MAIS ATUAL - 1.2.4</b>
             <input type="text" value={ip} onChange={(e) => setIP(e.target.value)} />
             <div>
                 <button onClick={handleServer}> Start Server </button>
@@ -49,9 +54,5 @@ const App: React.FC<AppProps> = () => {
             </div>
             <ul>
                 {log.map((item) => <li>{item}</li>)}
-            </ul>
-
-        </>
-    )
-}
+            </ul>*/
 export default App;

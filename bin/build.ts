@@ -2,7 +2,7 @@ const proc = require('child_process');
 const electron = require("electron");
 const { app } = require("electron");
 const path = require('path');
-import fs from 'fs';
+const fs = require("fs-extra");
 import { server } from '../webpack.config';
 
 const args = process.argv.slice(2);
@@ -17,11 +17,17 @@ const runServer = async () => {
     console.log('Starting build...');
     Client.run(() => {
         console.log("Client")
-        fs.copyFile(path.resolve(process.cwd(),"public","favicon.ico"), path.resolve(process.cwd(),"build","favicon.ico"),() => {});
-        fs.copyFile(path.resolve(process.cwd(),"public","agitaoferta.ico"), path.resolve(process.cwd(),"build","agitaoferta.ico"),() => {});
         Server.run(() => {
-            console.log("Server")
-            fs.copyFile(path.resolve(process.cwd(),"public","preload.js"), path.resolve(process.cwd(),"build","server","preload.js"),() => {});
+            fs.copySync(path.resolve(process.cwd(), "public"), path.resolve(process.cwd(), "build"), {
+                dereference: true,
+                filter: file => file !== path.resolve(process.cwd(), "public", "index.html"),
+            });
+            /*
+          fs.copyFile(path.resolve(process.cwd(),"public","preload.js"), path.resolve(process.cwd(),"build","server","preload.js"),() => {});
+          fs.copyFile(path.resolve(__dirname,"..","public/images/image1.png"), path.resolve(__dirname,"..","build/images/image1.png"),() => {});
+          fs.copyFile(path.resolve(__dirname,"..","public/images/image2.png"), path.resolve(__dirname,"..","build/images/image2.png"),() => {});
+          fs.copyFile(path.resolve(__dirname,"..","public/images/image3.png"), path.resolve(__dirname,"..","build/images/image3.png"),() => {});
+          fs.copyFile(path.resolve(__dirname,"..","public/images/image4.png"), path.resolve(__dirname,"..","build/images/image4.png"),() => {});*/
         });
     });
 };

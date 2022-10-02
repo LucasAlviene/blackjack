@@ -6,10 +6,12 @@ import {
 } from 'react-redux'
 
 import PlayersReducer from './Players.store'
+import ConnectionReducer from './Connection.store'
 
 const RootStore = configureStore({
     reducer: {
-        players: PlayersReducer
+        players: PlayersReducer,
+        connection: ConnectionReducer
     }
 })
 

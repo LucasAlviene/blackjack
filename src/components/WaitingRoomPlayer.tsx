@@ -7,7 +7,7 @@ interface WaitingRoomPlayerProps {
 
 const WaitingRoomPlayer: React.FC<WaitingRoomPlayerProps> = (props) => {
   return (
-    <div>
+    <div className="waiting-room-player">
       <img src={props.player.avatar} alt={props.player.name} />
       <span> {props.player.name} </span>
     </div>

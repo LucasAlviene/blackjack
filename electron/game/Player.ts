@@ -5,10 +5,10 @@ import Server from '../Socket/Server';
 
 export const ProtocolRequestCommands = {
     START: "START",
-    SHUFFLE: "SHUFFLE",
     DRAW: "DRAW",
     STAND: "STAND",
-    HANDSHAKE: "HANDSHAKE"
+    HANDSHAKE: "HANDSHAKE",
+    PLAYERS: "PLAYERS"
 }
 
 export const ProtocolResponseCommands = {
@@ -45,14 +45,25 @@ class Player {
         return this._id;
     }
 
-    public command(command: string, body: string[]) {
+    public async command(command: string, body: string[]) {
         const game = Server.current?.game;
 
         switch (command) {
+            case ProtocolRequestCommands.PLAYERS:
+                if (game) {
+                    let text: string[] = [];
+                    for (let player of game.players.values()) {
+                        //console.log(" -- ", player, " -- ", player.toString(), " -- ")
+                        text.push(player.toString());
+                    }
+                    console.log(text.join(" "));
+                    await game.messageEveryone("PLAYERS", text.join(" "));
+                }
+                break;
             case ProtocolRequestCommands.DRAW:
                 if (game && game.Start && game.currentPlayer == this.id) {
                     game.addCardToPlayer(this);
-                    game.messageEveryone("DRAW", this.id + " " + this._hand.toString() + " " + this.sumHand());
+                    await game.messageEveryone("DRAW", this.id + " " + this._hand.toString() + " " + this.sumHand(false));
                 }
                 break;
 
@@ -64,7 +75,8 @@ class Player {
                 if (game && !game.Start) {
                     this._name = body[0];
                     this._avatar = body[1];
-                    this.send("HANDSHAKE", "ok")
+                    await this.send("HANDSHAKE", "ok")
+                    await game.messageEveryone("JOIN", this.toString());
                 }
                 break;
         }
@@ -85,8 +97,8 @@ class Player {
         this._hand.push(card);
     }
 
-    sumHand() {
-        return this._hand.sumHand();
+    sumHand(sumBit: boolean) {
+        return this._hand.sumHand(sumBit);
     }
 
     toString() {

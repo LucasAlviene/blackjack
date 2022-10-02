@@ -13,19 +13,19 @@ class Card {
         this.suit = suit;
     }
 
-    public getValue() : number{
-        switch(this.number){
+    public getValue(): number {
+        switch (this.number) {
             case "j":
             case "q":
             case "k": return 10;
             case "a": return 1;
         }
         return Number(this.number);
-    
+
     }
 
     public toString() {
-        return this.id + "_" + this.color + "_" + this.suit;
+        return this.id + "_" + this.color + "_" + this.suit + "_" + this.number;
     }
 }
 

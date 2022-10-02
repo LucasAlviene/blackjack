@@ -22,11 +22,18 @@ class Hand {
     return requestedCard
   }
 
-  public sumHand(){
-    let cardsSum = 0;
+
+  public sumHand(sumBit: boolean){
+    // sumBit == 1: soma todas as cartas da mão,  para enviar somente ao dono da mão
+    // sumBit == 0: oculta a soma do valor da primeira carta, para enviar somente aos outros jogadores
+
+    let cardsSum = 0
+    if(!sumBit){
+      cardsSum -= this._cards[0].getValue()
+    }
 
     this._cards.forEach(card => {
-        cardsSum += card.getValue(); 
+      cardsSum += card.getValue(); 
     });
 
     return cardsSum;

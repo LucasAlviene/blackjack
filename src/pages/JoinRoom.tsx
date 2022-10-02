@@ -5,14 +5,19 @@ import TextField from '../components/TextField'
 import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
-
 import { event } from '../utils/event';
+import { useNavigate } from 'react-router-dom';
+import PageLinks from './PageLinks';
+import {useDispatch} from '../store/Root.store'
+import {connectAsClient} from '../store/Connection.store'
 
 interface JoinRoomProps {
 
 }
 
 const JoinRoom: React.FC<JoinRoomProps> = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [avatarPath, setAvatarPath] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [ip, setIp] = useState<string>('')
@@ -20,6 +25,8 @@ const JoinRoom: React.FC<JoinRoomProps> = () => {
   const handleClick = () => {
     event("joinServer", [ip, port, name, avatarPath], () => {
       // Vai para a sala de espera
+      dispatch(connectAsClient({ip: "", port: ""}))
+      navigate(PageLinks.WAITING_ROOM);
     });
     console.log('clicked')
   }
