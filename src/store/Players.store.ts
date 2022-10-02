@@ -18,10 +18,12 @@ export interface PlayerData {
 }
 
 interface PlayerStoreState {
+  user: PlayerData|null
   players: PlayerData[]
 }
 
 const initialState: PlayerStoreState = {
+  user: null,
   players: []
 }
 
@@ -29,6 +31,15 @@ const PlayerStore = createSlice({
   name: 'players',
   initialState,
   reducers: {
+    createUser: (state: PlayerStoreState, action: PayloadAction<PlayerData>) => {
+      if (action.payload === null) return
+      if (state.players.length !== 0 &&
+        state.players.findIndex(player => player.id === action.payload.id) !== -1) {
+        return
+      }
+      state.user = action.payload
+      state.players.push(action.payload)
+    },
     addPlayer: (state: PlayerStoreState, action: PayloadAction<PlayerData>) => {
       if (action.payload === null) return
       if (state.players.length !== 0 &&
@@ -57,6 +68,10 @@ const PlayerStore = createSlice({
       const beginArray = state.players.slice(0, index);
       const endArray = state.players.slice(index + 1);
       state.players = beginArray.concat(endArray)
+    },
+    clear: (state: PlayerStoreState) => {
+      state.user = initialState.user
+      state.players = initialState.players
     },
     test: (state: PlayerStoreState) => {
       state.players = [

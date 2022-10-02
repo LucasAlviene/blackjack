@@ -27,6 +27,44 @@
 
 .page-room {
 
+  display: grid;
+  grid-template:
+    "opponents opponents" 20vh
+    "message message" 10vh
+    "cards cards" 50vh
+    "info actions" 20vh
+    / 50% 50%;
+
+  > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  .opponents {
+    grid-area: opponents;
+    background-color: red;
+  }
+
+  .message {
+    grid-area: message;
+    background-color: green;
+  }
+
+  .cards {
+    grid-area: cards;
+    background-color: blue;
+  }
+
+  .info {
+    grid-area: info;
+    background-color: orange;
+  }
+
+  .actions {
+    grid-area: actions;
+    background-color: cyan;
+  }  
+
 }
 
 .container {

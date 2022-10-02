@@ -32,17 +32,13 @@ const App: React.FC<AppProps> = () => {
     const handleStarGame = (e: React.MouseEvent) => event("eventClient", ["START"]);
 
     return (
-        <>
-            <Routes>
-                <Route path={PageLinks.HOME} element={<Home />} />
-                <Route path={PageLinks.CREATE_ROOM} element={<CreateRoom />} />
-                <Route path={PageLinks.JOIN_ROOM} element={<JoinRoom />} />
-                <Route path={PageLinks.WAITING_ROOM} element={<WaitingRoom />} />
-                <Route path={PageLinks.ROOM} element={<Room />} />
-            </Routes>
-            <a href='#/'>Voltar</a>
-
-        </>
+        <Routes>
+            <Route path={PageLinks.HOME} element={<Home />} />
+            <Route path={PageLinks.CREATE_ROOM} element={<CreateRoom />} />
+            <Route path={PageLinks.JOIN_ROOM} element={<JoinRoom />} />
+            <Route path={PageLinks.WAITING_ROOM} element={<WaitingRoom />} />
+            <Route path={PageLinks.ROOM} element={<Room />} />
+        </Routes>
     )
 }/*
             <b>VERSÃO MAIS ATUAL - 1.2.4</b>

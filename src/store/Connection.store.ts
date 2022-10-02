@@ -37,9 +37,9 @@ const ConnectionStore = createSlice({
       state.port = action.payload.port
     },
     disconnect: (state: ConnectionStoreState) => {
-      state.type = EConnectionType.NONE
-      state.ip = ""
-      state.port = ""
+      state.type = initialState.type
+      state.ip = initialState.ip
+      state.port = initialState.port
     }
   }
 })

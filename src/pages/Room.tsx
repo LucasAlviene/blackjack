@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from '../store/Root.store';
 import { addPlayer, addHand, removePlayer, sumHand } from '../store/Players.store';
 
 import { onEvent, offEvent } from '../utils/event';
+import RoomPlayer from '../components/RoomPlayer';
 
 interface RoomProps {
 }
 
 const Room: React.FC<RoomProps> = () => {
+  const players = useSelector(state => state.players.players)
   const dispatch = useDispatch();
   useEffect(() => {
     const listener = (e, data: ResponseServer) => {
@@ -72,27 +74,26 @@ const Room: React.FC<RoomProps> = () => {
   return (
     <div className='page page-room'>
       {/* oponentes */}
-      <div>
-
+      <div className='opponents'>
+        {players.map(player => {
+          return <RoomPlayer player={player}  />
+        })}
       </div>
       {/* mensagem */}
-      <div>
-
+      <div className='message'>
+        <h1> message </h1>
       </div>
       {/* cartas do usuario */}
-      <div>
+      <div className='cards'>
+        
+      </div>
+      {/* informações */}
+      <div className='info'>
 
       </div>
-      {/* usuário */}
-      <div>
-        {/* informações */}
-        <div>
+      {/* ações */}
+      <div className='actions'>
 
-        </div>
-        {/* ações */}
-        <div>
-
-        </div>
       </div>
     </div>
   );
