@@ -2,7 +2,7 @@
 
 Definição:
 ## Request
-**HANDKSHAKE {name}** - O cliente se conecta e se apresenta ao servidor
+**HANDKSHAKE {name} {avatar}** - O cliente se conecta e se apresenta ao servidor
 **START** - O cliente avisa que deseja começar o jogo
 **STAND** - O cliente avisa que deseja sair da mesa e esperar o termino do jogo
 **DRAW** - o cliente avisa que deseja comprar uma carta do deck

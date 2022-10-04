@@ -4,11 +4,11 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 
 
-module.exports = function (mode,definePlugin) {
+module.exports = function (mode, definePlugin) {
     return {
         stats: 'errors-warnings',
 
-        entry: path.resolve(__dirname, 'electron/index.ts'),
+        entry: path.resolve(__dirname, 'electron', 'src', 'index.ts'),
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: 'server/[name].js',
@@ -78,11 +78,11 @@ module.exports = function (mode,definePlugin) {
         },
         resolve: {
             // Add `.ts` and `.tsx` as a resolvable extension.
-            modules: ["node_modules"],
+            modules: [path.resolve(__dirname, 'electron', 'node_modules')],
             extensions: [".ts"]
         },
-        externals: [nodeExternals({allowlist:'clipboardy'})],
-        plugins:[
+        externals: [nodeExternals({ allowlist: 'clipboardy' })],
+        plugins: [
             definePlugin
         ]
         /*

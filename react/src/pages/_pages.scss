@@ -1,0 +1,115 @@
+
+.page {
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.page-home {
+
+}
+
+.page-create-room {
+  
+}
+
+.page-join-room {
+
+}
+
+.page-waiting-room {
+  > .container {
+    width: 40rem;
+  }
+}
+
+.page-room {
+
+  display: grid;
+  grid-template:
+    "opponents opponents" 20vh
+    "message message" 10vh
+    "cards cards" 50vh
+    "info actions" 20vh
+    / 50% 50%;
+
+  > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  .opponents {
+    grid-area: opponents;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .message {
+    grid-area: message;
+    display: flex;
+    align-items: center;
+    h1 {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .cards {
+    grid-area: cards;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem 1rem;
+      > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: .5rem;
+        flex: 1 0 0%;
+        max-width: 160px;
+        > img {
+          width: 100%;
+          border-radius: 13px;
+          box-shadow: 0 2px 4px black;
+        }
+      }
+  }
+
+  .info {
+    grid-area: info;
+    background-color: orange;
+
+    display: flex;
+    align-items: center;
+    > img {
+      width: 8rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px black;
+    }
+  }
+
+  .actions {
+    grid-area: actions;
+    background-color: cyan;
+  }  
+
+}
+
+.container {
+  padding: 1rem .2rem;
+  width: 20rem;
+  //height: 25rem;
+  background-color: white;
+  box-shadow: 0 2px 4px black;
+  border-radius: 4px;
+
+  //display: flex;
+  //flex-wrap: wrap;
+  //justify-content: center;  
+  //align-items: center;
+}

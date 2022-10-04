@@ -5,7 +5,7 @@ import webpackConfig from '../webpack.config.js';
 const mode = process.env.NODE_ENV;
 
 const raw = {
-  isDev: mode == "development",
+  isDev: mode == "development" || true,
   NODE_ENV: mode
 }
 

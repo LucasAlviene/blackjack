@@ -1,0 +1,19 @@
+{
+  "name": "trabalho-redes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "../build/server/main.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^19.0.4"
+  },
+  "dependencies": {
+    "fs-extra": "^10.1.0"
+  },
+  "engines": {
+    "node": "14.15.4"
+  }
+}

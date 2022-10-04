@@ -11,7 +11,7 @@ module.exports = function (mode, definePlugin) {
     const isEnvDevelopment = mode == "development";
 
     return {
-        entry: path.resolve(__dirname, 'src/index.tsx'),
+        entry: path.resolve(__dirname, 'react', 'src', 'index.tsx'),
         output: {
             clean: true,
             path: path.resolve(__dirname, 'build'),
@@ -78,7 +78,7 @@ module.exports = function (mode, definePlugin) {
         },
         resolve: {
             // Add `.ts` and `.tsx` as a resolvable extension.
-            modules: ["node_modules"],
+            modules: [path.resolve(__dirname, 'react', 'node_modules')],
             extensions: [".ts", ".tsx", ".js"]
         },
         // externals: [nodeExternals()],
