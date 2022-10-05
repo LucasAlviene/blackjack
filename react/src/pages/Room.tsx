@@ -7,16 +7,23 @@ import RoomPlayer from '../components/RoomPlayer';
 import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
+import MainPageLayout from '../layouts/MainPageLayout'
+import getMessage from '../components/getMessage';
+import getAvatar from '../utils/getAvatar';
 
 interface RoomProps {
 }
 
 const Room: React.FC<RoomProps> = () => {
   const [currentTurnPlayerId, setCurrentTurnPlayerId] = useState<number>(-1)
-  const {user, players} = useSelector(state => state.players)
+  const { user, players } = useSelector(state => state.players)
+  const [status, setStatus] = useState("");
+  const [winners, setWinners] = useState<number[]>([]);
+  const [losers, setLosers] = useState<number[]>([]);
   const dispatch = useDispatch();
   useEffect(() => {
     const listener = (e, data: ResponseServer) => {
+      setStatus(data.command);
       switch (data.command) {
         case "STAND":
           // Próximo jogador
@@ -67,6 +74,7 @@ const Room: React.FC<RoomProps> = () => {
           // Ex: [1]
           if (data.body) {
             const [idPlayer] = data.body;
+            setWinners((old) => [...old, Number(idPlayer)]);
           }
           break;
         case "LOST":
@@ -75,6 +83,7 @@ const Room: React.FC<RoomProps> = () => {
           // Ex: [1]
           if (data.body) {
             const [idPlayer] = data.body;
+            setLosers((old) => [...old, Number(idPlayer)]);
           }
           break;
       }
@@ -85,26 +94,29 @@ const Room: React.FC<RoomProps> = () => {
   }, []);
 
   const drawCard = () => {
-    event("eventClient",['DRAW']);
+    event("eventClient", ['DRAW']);
   }
 
   const stand = () => {
-    event("eventClient",['STAND']);
+    event("eventClient", ['STAND']);
   }
+
+
 
   const currentTurnPlayerIsUser = user?.id === currentTurnPlayerId
 
   return (
-    <div className='page page-room'>
+    <MainPageLayout allowExit className='page page-room'>
+
       {/* oponentes */}
       <div className='opponents'>
         {players.filter(player => player.id !== user?.id).map(player => {
-          return <RoomPlayer player={player} currentTurnPlayerId={currentTurnPlayerId}  />
+          return <RoomPlayer player={player} currentTurnPlayerId={currentTurnPlayerId} />
         })}
       </div>
       {/* mensagem */}
       <div className='message'>
-        <h1> message </h1>
+        <h1>{currentTurnPlayerId == -2 ? "Fim do Jogo" : getMessage(status, currentTurnPlayerId)}</h1>
       </div>
       {/* cartas do usuario */}
       <div className='cards'>
@@ -118,30 +130,29 @@ const Room: React.FC<RoomProps> = () => {
       </div>
       {/* informações */}
       <div className='info'>
-        <img src={user?.avatar} alt={user?.name} />
+        <img src={getAvatar(user?.avatar)} alt={user?.name} />
         <div>
-          <h4>{user?.name}</h4>
-          <span> 
-            {currentTurnPlayerIsUser && "TURNO"} 
-          </span>
+          <h2>{user?.name}</h2>
+          <span> {user?.value} / 21 </span>
+          {currentTurnPlayerIsUser && <span>TURNO</span>}
         </div>
       </div>
       {/* ações */}
       <div className='actions'>
         <Row>
-          <Column className='flex-center'>
+          <Column lg={6} xl={6} xxl={6} className='flex-center'>
             <Button onClick={drawCard} disabled={!currentTurnPlayerIsUser}>
               Comprar
             </Button>
           </Column>
-          <Column className='flex-center'>
+          <Column lg={6} xl={6} xxl={6} className='flex-center'>
             <Button onClick={stand} disabled={!currentTurnPlayerIsUser}>
               Manter
             </Button>
           </Column>
         </Row>
       </div>
-    </div>
+    </MainPageLayout>
   );
 };
 

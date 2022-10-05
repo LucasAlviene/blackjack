@@ -5,6 +5,7 @@ import TextField from '../components/TextField'
 import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
+import MainPageLayout from '../layouts/MainPageLayout'
 import PageLinks from './PageLinks';
 import { useDispatch } from '../store/Root.store';
 import { connectAsServer } from '../store/Connection.store';
@@ -20,7 +21,7 @@ const CreateRoom: React.FC<CreateRoomProps> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState<string>('')
-  const [name, setName] = useState<string>('Lucas')
+  const [name, setName] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const handleClick = () => {
     setLoading(true)
@@ -40,7 +41,7 @@ const CreateRoom: React.FC<CreateRoomProps> = () => {
     () => offEvent("eventServer", listener);
   }
   return (
-    <div className="page page-create-room">
+    <MainPageLayout className="page page-create-room">
       <div className="container">
         <Row>
           <Column className='flex-center'>
@@ -65,7 +66,7 @@ const CreateRoom: React.FC<CreateRoomProps> = () => {
           </Column>
         </Row>
       </div>
-    </div>
+    </MainPageLayout>
   );
 };
 

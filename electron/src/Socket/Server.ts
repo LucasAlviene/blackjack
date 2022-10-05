@@ -27,6 +27,10 @@ class Socket {
         return Socket.socket;
     }
 
+    end(){
+        this.server.close();
+    }
+
     get game(): Game {
         return this._game;
     }
@@ -34,7 +38,6 @@ class Socket {
     listener(socket: net.Socket) {
         const player = this.game.newPlayer(socket);
         if (player) {
-
             socket.on("data", (data) => {
                 const message = data.toString();
                 const [command, ...body] = message.split(" ");

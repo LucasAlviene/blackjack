@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
+import MainPageLayout from '../layouts/MainPageLayout'
 
 import {useNavigate} from 'react-router-dom'
 import PageLinks from './PageLinks'
@@ -13,7 +14,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = () => {
   const navigate = useNavigate()
   return (
-    <div className="page page-home">
+    <MainPageLayout className="page page-home">
       <div className="container">
         <Row>
           <Column className='flex-center'>
@@ -35,7 +36,7 @@ const Home: React.FC<HomeProps> = () => {
           </Column>
         </Row>
       </div>
-    </div>
+    </MainPageLayout>
   );
 };
 

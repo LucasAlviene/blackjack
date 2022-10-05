@@ -5,6 +5,7 @@ import TextField from '../components/TextField'
 import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
+import MainPageLayout from '../layouts/MainPageLayout'
 import { event, onEvent, offEvent } from '../utils/event';
 import { useNavigate } from 'react-router-dom';
 import PageLinks from './PageLinks';
@@ -20,9 +21,9 @@ const JoinRoom: React.FC<JoinRoomProps> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState<string>('')
-  const [name, setName] = useState<string>('Juliano')
+  const [name, setName] = useState<string>('')
   const [ip, setIp] = useState<string>('')
-  const [port, setPort] = useState<string>('500')
+  const [port, setPort] = useState<string>('')
   const handleClick = () => {
     event("joinServer", [ip, port, name, avatar], () => {
       // Vai para a sala de espera
@@ -39,7 +40,7 @@ const JoinRoom: React.FC<JoinRoomProps> = () => {
     () => offEvent("eventServer", listener);
   }
   return (
-    <div className="page page-join-room">
+    <MainPageLayout className="page page-join-room">
       <div className="container">
         <Row>
           <Column className='flex-center'>
@@ -74,7 +75,7 @@ const JoinRoom: React.FC<JoinRoomProps> = () => {
           </Column>
         </Row>
       </div>
-    </div>
+    </MainPageLayout>
   );
 };
 

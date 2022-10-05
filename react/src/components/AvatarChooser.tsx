@@ -3,6 +3,7 @@ import {
   FaChevronLeft,
   FaChevronRight
 } from 'react-icons/fa'
+import getAvatar from '../utils/getAvatar';
 
 interface AvatarChooserProps {
   setAvatarPath: StateSetter<string>
@@ -11,7 +12,7 @@ interface AvatarChooserProps {
 const AvatarChooser: React.FC<AvatarChooserProps> = (props) => {
   const MAX_IMAGES = 4
   const MIN_IMAGES = 1
-  const getAvatarPath = (avatarId: number) => (process.env.NODE_ENV == "development" ? '' : window.__dirname) + `/images/image${avatarId}.png`
+  const getAvatarPath = (avatarId: number) => `/images/image${avatarId}.png`
   const [avatarId, setAvatarId] = useState<number>(1)
   useEffect(() => {
     props.setAvatarPath(getAvatarPath(avatarId))
@@ -34,7 +35,7 @@ const AvatarChooser: React.FC<AvatarChooserProps> = (props) => {
   return (
     <div className='avatar-chooser'>
       <button onClick={handleLeft}> <FaChevronLeft /> </button>
-      <img src={getAvatarPath(avatarId)} alt={String(avatarId)} />
+      <img src={getAvatar(getAvatarPath(avatarId))} alt={String(avatarId)} />
       <button onClick={handleRight}> <FaChevronRight /> </button>
     </div>
   );

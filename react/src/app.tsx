@@ -35,12 +35,12 @@ const App: React.FC<AppProps> = () => {
                 <Route path={PageLinks.WAITING_ROOM} element={<WaitingRoom />} />
                 <Route path={PageLinks.ROOM} element={<Room />} />
             </Routes>
-            <ul>
-                {log.map((item) => <li>{item}</li>)}
-            </ul>
         </>
     )
 }/*
+            <ul>
+                {log.map((item) => <li>{item}</li>)}
+            </ul>
             <b>VERSÃO MAIS ATUAL - 1.2.4</b>
             <input type="text" value={ip} onChange={(e) => setIP(e.target.value)} />
             <div>

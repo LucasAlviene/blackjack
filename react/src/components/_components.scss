@@ -130,24 +130,44 @@ $color-gray2: #aaa;
   padding: 0 1.5rem 0 1rem;
   display: flex;
   flex-direction: column;
-  div:nth-child(1) {
+  > div:nth-child(1) {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
-    img {
+    > img {
       margin-right: 1rem;
       width: 4rem;
       height: 4rem;
       border-radius: 4px;
       box-shadow: 0 2px 4px black;
     }
+    > div {
+      > span:nth-child(2) {
+        color: $color-red;
+        text-shadow: 0 2px black;
+      }
+    }
   }
-  div:nth-child(2) {
+  > div:nth-child(2) {
     display: flex;
     justify-content: center;
-    img {
+    > img {
       width: 2rem;
       margin: .5rem .1rem 0;
       box-shadow: 0 2px 4px black;
+    }
+  }
+}
+
+.page-options {
+  padding-left: 1rem;
+  > div {
+    display: inline-block;
+    margin-top: 1rem;
+    width: 5vh;
+
+    > svg {
+      font-size: 1.25rem;
     }
   }
 }

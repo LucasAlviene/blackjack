@@ -63,7 +63,7 @@ class Game {
                 if (total > 21) {
                     // currentPlayer Perdeu
                     await this.messageEveryone("LOST", String(currentPlayer));
-                    this.removePlayer(currentPlayer)
+                    //this.removePlayer(currentPlayer)
                 } else if (total == 21) {
                     await this.messageEveryone("WINNER", String(currentPlayer));
                     // currentPlayer Ganhou
@@ -73,6 +73,7 @@ class Game {
             }
             console.log("OrderPlayers", this.orderPlayers);
             if (this.orderPlayers.length > 0) this.nextPlayer();
+            else await this.messageEveryone("STAND", "-2");
         }
     }
 

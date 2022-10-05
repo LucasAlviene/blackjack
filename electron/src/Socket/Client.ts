@@ -31,8 +31,12 @@ class Socket extends EventEmitter {
         this.on("data", (data) => {
             const message = data.toString();
             const [command, ...body] = message.split(" ");
-            // Receber mensagem do servidor
-            Electron.current.webContents.send("eventServer", { command, body });
+            if (command == "EXIT") {
+                this.end();
+            } else {
+                // Receber mensagem do servidor
+                Electron.current.webContents.send("eventServer", { command, body });
+            }
         })
     }
 

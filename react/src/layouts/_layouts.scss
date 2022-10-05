@@ -1,3 +1,20 @@
+.main-page-layout {
+  display: grid;
+  grid-template:
+    "options" 10vh
+    "main" 90vh
+    / 100%;
+
+  > .page-options {
+    grid-area: options;
+  }
+
+  > .main {
+    grid-area: main;
+  }
+
+}
+
 .layout-row {
   display: flex;
   flex-wrap: wrap;

@@ -5,6 +5,7 @@ import PlayersQueue from '../components/PlayersQueue';
 import Button from '../components/Button'
 import Row from '../layouts/Row'
 import Column from '../layouts/Column'
+import MainPageLayout from '../layouts/MainPageLayout'
 import { useSelector, useDispatch } from '../store/Root.store';
 import { addPlayer, removePlayer } from '../store/Players.store';
 import { EConnectionType } from '../store/Connection.store';
@@ -65,7 +66,7 @@ const WaitingRoom: React.FC<WaitingRoomProps> = () => {
   }, [players]);
 
   return (
-    <div className='page page-waiting-room'>
+    <MainPageLayout allowExit className='page page-waiting-room'>
       <div className='container'>
         <Row>
           <Column className='flex-center'>
@@ -90,7 +91,7 @@ const WaitingRoom: React.FC<WaitingRoomProps> = () => {
           </Row>
         }
       </div>
-    </div>
+    </MainPageLayout>
   );
 };
 

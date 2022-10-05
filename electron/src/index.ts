@@ -12,6 +12,14 @@ app.onEvent('startServer', (e) => {
   e.sender.send("startServer");
 });
 
+app.onEvent('endServer', (e) => {
+  const socket = Socket.Server.current;
+  if(socket){
+    socket.end();
+  }
+  e.sender.send("endServer");
+});
+
 app.onEvent('joinServer', (e, ip, port, name, avatarPath) => {
   const socket = Socket.Client.Start(ip, port);
   socket.emit("HANDSHAKE " + name + " " + avatarPath);

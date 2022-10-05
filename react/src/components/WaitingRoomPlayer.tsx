@@ -1,5 +1,6 @@
 import React from 'react';
 import { PlayerData } from '../store/Players.store';
+import getAvatar from '../utils/getAvatar';
 
 interface WaitingRoomPlayerProps {
   player: PlayerData
@@ -8,7 +9,7 @@ interface WaitingRoomPlayerProps {
 const WaitingRoomPlayer: React.FC<WaitingRoomPlayerProps> = (props) => {
   return (
     <div className="waiting-room-player">
-      <img src={props.player.avatar} alt={props.player.name} />
+      <img src={getAvatar(props.player.avatar)} alt={props.player.name} />
       <span> {props.player.name} </span>
     </div>
   );

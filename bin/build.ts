@@ -15,7 +15,8 @@ import { Client, Server } from './webpack';
 let child;
 const runServer = async () => {
     console.log('Starting build...');
-    Client.run(() => {
+    Client.run((err) => {
+        console.log(err);
         console.log("Client")
         Server.run(() => {
             fs.copySync(path.resolve(process.cwd(), "public"), path.resolve(process.cwd(), "build"), {
