@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from '../store/Root.store';
-import { addPlayer, addHand, removePlayer, sumHand } from '../store/Players.store';
+import { addPlayer, addHand, removePlayer, sumHand, setStatus } from '../store/Players.store';
 import { onEvent, offEvent, event } from '../utils/event';
 import getCardImage from '../utils/getCardImage'
 import RoomPlayer from '../components/RoomPlayer';
@@ -16,21 +16,26 @@ interface RoomProps {
 
 const Room: React.FC<RoomProps> = () => {
   const [currentTurnPlayerId, setCurrentTurnPlayerId] = useState<number>(-1)
+  const [end, setEnd] = useState<boolean>(false);
   const { user, players } = useSelector(state => state.players)
-  const [status, setStatus] = useState("");
+  const [command, setCommand] = useState("");
   const [winners, setWinners] = useState<number[]>([]);
   const [losers, setLosers] = useState<number[]>([]);
   const dispatch = useDispatch();
   useEffect(() => {
     const listener = (e, data: ResponseServer) => {
-      setStatus(data.command);
+      setCommand(data.command);
       switch (data.command) {
+        case "END":
+          setCurrentTurnPlayerId(-1);
+          setEnd(true);
+          break;
         case "STAND":
           // Próximo jogador
           // [id]
           // Ex: [1]
           if (data.body) {
-            const [idPlayer] = data.body;
+            const [idPlayer] = data.body
             setCurrentTurnPlayerId(Number(idPlayer));
           }
           break;
@@ -74,7 +79,8 @@ const Room: React.FC<RoomProps> = () => {
           // Ex: [1]
           if (data.body) {
             const [idPlayer] = data.body;
-            setWinners((old) => [...old, Number(idPlayer)]);
+            dispatch(setStatus({ idPlayer: Number(idPlayer), status: 'WIN' }))
+            //  setWinners((old) => [...old, Number(idPlayer)]);
           }
           break;
         case "LOST":
@@ -83,7 +89,8 @@ const Room: React.FC<RoomProps> = () => {
           // Ex: [1]
           if (data.body) {
             const [idPlayer] = data.body;
-            setLosers((old) => [...old, Number(idPlayer)]);
+            dispatch(setStatus({ idPlayer: Number(idPlayer), status: 'LOST' }))
+            // setLosers((old) => [...old, Number(idPlayer)]);
           }
           break;
       }
@@ -103,7 +110,7 @@ const Room: React.FC<RoomProps> = () => {
 
 
 
-  const currentTurnPlayerIsUser = user?.id === currentTurnPlayerId
+  const currentTurnPlayerIsUser = user?.id === currentTurnPlayerId;
 
   return (
     <MainPageLayout allowExit className='page page-room'>
@@ -116,7 +123,7 @@ const Room: React.FC<RoomProps> = () => {
       </div>
       {/* mensagem */}
       <div className='message'>
-        <h1>{currentTurnPlayerId == -2 ? "Fim do Jogo" : getMessage(status, currentTurnPlayerId)}</h1>
+        <h1>{getMessage(command, currentTurnPlayerId, end)}</h1>
       </div>
       {/* cartas do usuario */}
       <div className='cards'>
@@ -139,18 +146,19 @@ const Room: React.FC<RoomProps> = () => {
       </div>
       {/* ações */}
       <div className='actions'>
-        <Row>
-          <Column lg={6} xl={6} xxl={6} className='flex-center'>
-            <Button onClick={drawCard} disabled={!currentTurnPlayerIsUser}>
-              Comprar
-            </Button>
-          </Column>
-          <Column lg={6} xl={6} xxl={6} className='flex-center'>
-            <Button onClick={stand} disabled={!currentTurnPlayerIsUser}>
-              Manter
-            </Button>
-          </Column>
-        </Row>
+        {!end &&
+          <Row>
+            <Column lg={6} xl={6} xxl={6} className='flex-center'>
+              <Button onClick={drawCard} disabled={!currentTurnPlayerIsUser}>
+                Comprar
+              </Button>
+            </Column>
+            <Column lg={6} xl={6} xxl={6} className='flex-center'>
+              <Button onClick={stand} disabled={!currentTurnPlayerIsUser}>
+                Manter
+              </Button>
+            </Column>
+          </Row>}
       </div>
     </MainPageLayout>
   );

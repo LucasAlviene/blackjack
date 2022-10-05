@@ -2,7 +2,7 @@
 
 declare type StateSetter<T> = (value: T | ((value: T) => T)) => void
 type ResponseServer = {
-    command: "START" | "HAND" | "STAND" | "DRAW" | "EXIT" | "WIN" | "LOST" | "JOIN" | "PLAYERS" | "HANDSHAKE"
+    command: "START" | "END" | "HAND" | "STAND" | "DRAW" | "EXIT" | "WIN" | "LOST" | "JOIN" | "PLAYERS" | "HANDSHAKE"
     body?: string[]
 }
 

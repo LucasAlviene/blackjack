@@ -1,17 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
     TypedUseSelectorHook,
-    useDispatch as useUntypedDispatch, 
+    useDispatch as useUntypedDispatch,
     useSelector as useUntypedSelector
 } from 'react-redux'
 
 import PlayersReducer from './Players.store'
 import ConnectionReducer from './Connection.store'
+import LogReducer from './Log.store'
 
 const RootStore = configureStore({
     reducer: {
         players: PlayersReducer,
-        connection: ConnectionReducer
+        connection: ConnectionReducer,
+        log: LogReducer
     }
 })
 

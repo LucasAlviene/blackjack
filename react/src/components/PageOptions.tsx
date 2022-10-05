@@ -8,9 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from '../store/Root.store';
 import { EConnectionType } from '../store/Connection.store';
 import { event } from '../utils/event';
+import PageLinks from '../pages/PageLinks'
 
 interface PageOptionsProps {
   allowExit?: boolean
+  openLog: () => void
 }
 
 const PageOptions: React.FC<PageOptionsProps> = (props) => {
@@ -21,16 +23,13 @@ const PageOptions: React.FC<PageOptionsProps> = (props) => {
     if (connection.type === EConnectionType.SERVER) {
       event("endServer");
     }
-    navigate("/");
+    navigate(PageLinks.HOME);
   }
 
-  const log = () => {
-
-  }
   return (
     <div className='page-options'>
       <div>
-        <Button onClick={log}>
+        <Button onClick={props.openLog}>
           <BiTerminal />
         </Button>
       </div>

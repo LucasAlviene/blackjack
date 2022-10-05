@@ -15,10 +15,11 @@ export interface PlayerData {
   avatar: string
   cards: CardData[]
   value: number
+  status?: 'WIN' | 'LOST'
 }
 
 interface PlayerStoreState {
-  user: PlayerData|null
+  user: PlayerData | null
   players: PlayerData[]
 }
 
@@ -53,7 +54,7 @@ const PlayerStore = createSlice({
       const index = state.players.findIndex(player => player.id === idPlayer);
       if (index !== -1) {
         state.players[index].cards.push(card);
-        if(state.user?.id === idPlayer) {
+        if (state.user?.id === idPlayer) {
           state.user.cards.push(card)
         }
       }
@@ -63,9 +64,16 @@ const PlayerStore = createSlice({
       const index = state.players.findIndex(player => player.id === idPlayer);
       if (index !== -1) {
         state.players[index].value = sumCards;
-        if(state.user?.id === idPlayer) {
+        if (state.user?.id === idPlayer) {
           state.user.value = sumCards
         }
+      }
+    },
+    setStatus: (state: PlayerStoreState, action: PayloadAction<{ idPlayer: number, status: 'WIN' | 'LOST' }>) => {
+      const { idPlayer, status } = action.payload;
+      const index = state.players.findIndex(player => player.id === idPlayer);
+      if (index !== -1) {
+        state.players[index].status = status;
       }
     },
     removePlayer: (state: PlayerStoreState, action: PayloadAction<number>) => {
@@ -100,5 +108,5 @@ const PlayerStore = createSlice({
   }
 })
 
-export const { createUser, addPlayer, addHand, removePlayer, test, sumHand} = PlayerStore.actions
+export const { createUser, addPlayer, addHand, removePlayer, test, sumHand, setStatus } = PlayerStore.actions
 export default PlayerStore.reducer

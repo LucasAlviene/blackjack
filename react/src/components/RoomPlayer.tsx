@@ -19,6 +19,8 @@ const RoomPlayer: React.FC<RoomPlayerProps> = (props) => {
           <span>{props.player.value} + ? / 21</span>
           <br />
           {props.player.id === props.currentTurnPlayerId && <span>TURNO</span>}
+          {props.player.status == "WIN" && <b>GANHOU</b>}
+          {props.player.status == "LOST" && <b>PERDEU</b>}
         </div>
       </div>
       <div>

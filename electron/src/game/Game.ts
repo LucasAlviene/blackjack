@@ -72,8 +72,8 @@ class Game {
                 }
             }
             console.log("OrderPlayers", this.orderPlayers);
-            if (this.orderPlayers.length > 0) this.nextPlayer();
-            else await this.messageEveryone("STAND", "-2");
+            if (this.orderPlayers.length > 1) this.nextPlayer();
+            else await this.messageEveryone("END");
         }
     }
 
@@ -89,7 +89,7 @@ class Game {
         this.messageEveryone("EXIT", String(player.id));
     }
 
-    async messageEveryone(command: string, message?: string) {
+    async messageEveryone(command: string, message: string = "") {
         console.log(command, message);
         const players = this._players.values();
         for (let player of players) {

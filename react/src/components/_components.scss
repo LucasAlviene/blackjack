@@ -171,3 +171,61 @@ $color-gray2: #aaa;
     }
   }
 }
+
+.modal-background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:not(.open) {
+    display: none;
+  }
+
+  > .modal {
+    display: grid;
+    width: 60vw;
+    height: 60vh;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px black;
+    grid-template:
+      "topbar" 5vh
+      "main" 55vh
+      / 100%;
+
+    > .topbar {
+      grid-area: topbar;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border-radius: 4px 4px 0 0;
+    }
+
+    > .main {
+      grid-area: main;
+    }
+
+    &.log {
+      background-color: #000d;
+
+      > .topbar {
+        background-color: black;
+        
+        > .button {
+          width: 5vh;
+          margin-right: 1rem;
+        }
+      }
+
+      > .main {
+        color: white;
+        padding: 1rem 1.6rem;
+        overflow-y: auto;
+      }
+    }
+
+  }
+
+}

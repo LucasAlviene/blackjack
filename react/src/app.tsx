@@ -7,19 +7,21 @@ import JoinRoom from './pages/JoinRoom'
 import WaitingRoom from './pages/WaitingRoom'
 import Room from './pages/Room'
 import PageLinks from './pages/PageLinks'
+import { useDispatch } from './store/Root.store';
+import { push } from './store/Log.store';
 
 interface AppProps {
 
 }
 
 const App: React.FC<AppProps> = () => {
-
-    const [log, setLog] = useState<string[]>([]);
+    const dispatch = useDispatch();
+    //const [log, setLog] = useState<string[]>([]);
 
     useEffect(() => {
         const listener = (e, data) => {
-            console.log(data);
-            setLog((old) => [JSON.stringify(data), ...old]);
+            dispatch(push(JSON.stringify(data)));
+            //setLog((old) => [JSON.stringify(data), ...old]);
         };
         onEvent("eventServer", listener)
 
@@ -27,15 +29,13 @@ const App: React.FC<AppProps> = () => {
     }, []);
 
     return (
-        <>
-            <Routes>
-                <Route path={PageLinks.HOME} element={<Home />} />
-                <Route path={PageLinks.CREATE_ROOM} element={<CreateRoom />} />
-                <Route path={PageLinks.JOIN_ROOM} element={<JoinRoom />} />
-                <Route path={PageLinks.WAITING_ROOM} element={<WaitingRoom />} />
-                <Route path={PageLinks.ROOM} element={<Room />} />
-            </Routes>
-        </>
+        <Routes>
+            <Route path={PageLinks.HOME} element={<Home />} />
+            <Route path={PageLinks.CREATE_ROOM} element={<CreateRoom />} />
+            <Route path={PageLinks.JOIN_ROOM} element={<JoinRoom />} />
+            <Route path={PageLinks.WAITING_ROOM} element={<WaitingRoom />} />
+            <Route path={PageLinks.ROOM} element={<Room />} />
+        </Routes>
     )
 }/*
             <ul>
