@@ -1,8 +1,10 @@
-const proc = require('child_process');
+import proc from 'child_process';
+import { app }from "electron";
+import path from 'path';
+import fs from 'fs-extra';
+
 const electron = require("electron");
-const { app } = require("electron");
-const path = require('path');
-import fs from 'fs';
+
 
 const args = process.argv.slice(2);
 const mode = args[0] == "--production" ? "production" : "development";
@@ -10,30 +12,31 @@ const isProduction = mode === "production";
 //@ts-ignore
 process.env.NODE_ENV = mode;
 
-import { clientServer, Server } from './webpack';
+import { clientServer, Server } from '../config/webpack';
 let child;
+const root = process.cwd();
 const runServer = async () => {
     console.log('Starting server...');
     clientServer.start();
-    fs.copyFile(path.resolve(__dirname,"..","public/preload.js"), path.resolve(__dirname,"..","build/server/preload.js"),() => {});
-    // Gambiarra temporaria
-    fs.copyFile(path.resolve(__dirname,"..","public/images/image1.png"), path.resolve(__dirname,"..","build/images/image1.png"),() => {});
-    fs.copyFile(path.resolve(__dirname,"..","public/images/image2.png"), path.resolve(__dirname,"..","build/images/image2.png"),() => {});
-    fs.copyFile(path.resolve(__dirname,"..","public/images/image3.png"), path.resolve(__dirname,"..","build/images/image3.png"),() => {});
-    fs.copyFile(path.resolve(__dirname,"..","public/images/image4.png"), path.resolve(__dirname,"..","build/images/image4.png"),() => {});
+    fs.copySync(path.resolve(root, "public"), path.resolve(root, "build"), {
+        dereference: true,
+        filter: file => file !== path.resolve(root, "public", "index.html"),
+    });
     Server.watch({
         aggregateTimeout: 300,
         poll: undefined
     }, (err, stats) => {
         console.log("Running Server....");
         if (err || stats?.hasErrors()) {
-            console.log(err)
+            console.log("Error", err, stats?.toString())
+            process.exit(0);
             return;
         }
         console.log(stats?.toString())
         if (child) {
             child.kill();
         };
+        //@ts-ignore
         child = proc.spawn(electron, ["."], { stdio: 'inherit', windowsHide: false });
         child.on('close', function (code, signal) {
             if (code !== null) process.exit(code);

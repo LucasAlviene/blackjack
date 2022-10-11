@@ -5,23 +5,24 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 // https://www.educative.io/answers/how-to-create-a-react-application-with-webpack
 
+const root = process.cwd();
 
 module.exports = function (mode, definePlugin) {
     const isEnvProduction = mode == "production";
     const isEnvDevelopment = mode == "development";
 
     return {
-        entry: path.resolve(__dirname, 'react', 'src', 'index.tsx'),
+        entry: path.resolve(root, 'react', 'src', 'index.tsx'),
         output: {
             clean: true,
-            path: path.resolve(__dirname, 'build'),
+            path: path.resolve(root, 'build'),
             filename: 'client/[name].[contenthash:8].js',
             chunkFilename: 'client/[name].[contenthash:8].chunk.js',
         },
 
         devServer: {
             static: {
-                directory: path.join(__dirname, 'public'),
+                directory: path.join(root, 'public'),
             },
             historyApiFallback: true,
             /*
@@ -67,19 +68,19 @@ module.exports = function (mode, definePlugin) {
                     exclude: /\.module\.(scss|sass)$/,
                     use: [
                         // Creates `style` nodes from JS strings
-                        "style-loader",
+                        require.resolve("style-loader"),
                         // Translates CSS into CommonJS
-                        "css-loader",
+                        require.resolve("css-loader"),
                         // Compiles Sass to CSS
-                        "sass-loader",
+                        require.resolve("sass-loader"),
                     ],
                 }
             ]
         },
         resolve: {
             // Add `.ts` and `.tsx` as a resolvable extension.
-            modules: [path.resolve(__dirname, 'react', 'node_modules')],
-            extensions: [".ts", ".tsx", ".js"]
+            modules: [path.resolve(root, 'react', 'node_modules')],
+            extensions: [".ts", ".tsx", ".js",".sass",".scss"]
         },
         // externals: [nodeExternals()],
         optimization: {
@@ -138,7 +139,7 @@ module.exports = function (mode, definePlugin) {
         plugins: [
             //new BundleAnalyzerPlugin(),
             new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, 'public', 'index.html'),
+                template: path.resolve(root, 'public', 'index.html'),
                 //inject: true,
 
                 ...(isEnvProduction && {

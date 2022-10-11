@@ -1,6 +1,6 @@
 import Webpack, { cli, Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import webpackConfig from '../webpack.config.js';
+import webpackConfig from './webpack.config.js';
 
 const mode = process.env.NODE_ENV;
 

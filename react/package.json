@@ -1,10 +1,9 @@
 {
-  "name": "trabalho-redes",
+  "name": "react",
   "version": "1.0.0",
   "description": "",
   "main": "../build/client/main.js",
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",

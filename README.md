@@ -1,6 +1,15 @@
 ## Redes Blackjack
 
-Definição:
+# Instalação
+
+Instalar: ```npm install```
+Iniciar no modo Dev: ```npm start```
+Gerar o executavel: ```npm run release```
+
+O executável irá para a pasta dist junto com o instalador.
+
+# Definição
+
 ## Request
 **HANDKSHAKE {name} {avatar}** - O cliente se conecta e se apresenta ao servidor
 **START** - O cliente avisa que deseja começar o jogo

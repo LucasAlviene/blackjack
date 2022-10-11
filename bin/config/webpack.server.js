@@ -3,14 +3,14 @@ const nodeExternals = require('webpack-node-externals');
 const TerserPlugin = require("terser-webpack-plugin");
 
 
-
+const root = process.cwd();
 module.exports = function (mode, definePlugin) {
     return {
         stats: 'errors-warnings',
 
-        entry: path.resolve(__dirname, 'electron', 'src', 'index.ts'),
+        entry: path.resolve(root, 'electron','index.ts'),
         output: {
-            path: path.resolve(__dirname, 'build'),
+            path: path.resolve(root, 'build'),
             filename: 'server/[name].js',
             chunkFilename: 'server/[name].[contenthash:8].chunk.js',
         },
@@ -21,7 +21,7 @@ module.exports = function (mode, definePlugin) {
                 {
                     test: /\.(ts)$/,
                     exclude: /node_modules/,
-                    loader: "ts-loader",
+                    loader: require.resolve("ts-loader"),
                     options: {
                         transpileOnly: true
                     }
