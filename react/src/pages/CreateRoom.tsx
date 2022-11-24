@@ -31,7 +31,7 @@ const CreateRoom: React.FC<CreateRoomProps> = () => {
     const listener = (e, data: ResponseServer) => {
       if (data.command == "HANDSHAKE" && data.body) {
         const id = Number(data.body[0]);
-        dispatch(test())
+        //dispatch(test())
         dispatch(connectAsServer({ ip: "", port: "" }))
         dispatch(createUser({ id, name, avatar, cards: [], value: 0 }))
         navigate(PageLinks.WAITING_ROOM);
